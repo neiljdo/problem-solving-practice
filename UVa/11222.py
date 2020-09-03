@@ -1,6 +1,5 @@
 import sys
 import math
-from functools import partial
 
 
 def main():
