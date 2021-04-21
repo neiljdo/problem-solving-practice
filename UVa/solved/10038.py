@@ -19,5 +19,6 @@ def main():
         if jolly: print("Jolly")
         else: print("Not jolly")
 
+
 if __name__ == "__main__":
     main()

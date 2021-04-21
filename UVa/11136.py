@@ -1,5 +1,6 @@
 import sys
 import math
+import heapq
 from collections import defaultdict
 
 
@@ -8,20 +9,20 @@ def main():
         days = int(sys.stdin.readline().strip())
         if not days: break
         total = 0
-        urn = defaultdict(int)
+        min_heap = []
+        max_heap = []
         for _ in range(days):
             bills = list(map(int, sys.stdin.readline().strip().split()[1:]))
             for bill in bills:
-                urn[bill] += 1
-            # simulate raffle
-            # TODO: cache min and max for O(1) lookup
-            distinct_bills = sorted(urn.keys())
-            min_bill, max_bill = distinct_bills[0], distinct_bills[-1]
+                heapq.heappush(min_heap, bill)
+                heapq.heappush(max_heap, -bill)
+
+            max_bill = -heapq.heappop(max_heap)
+            min_bill = heapq.heappop(min_heap)
+            if len(min_heap) == 1 and len(max_heap) == 1:
+                heapq.heappop(max_heap)
+                heapq.heappop(min_heap)
             total += max_bill - min_bill
-            urn[max_bill] -= 1
-            if urn[max_bill] <= 0: del urn[max_bill]
-            urn[min_bill] -= 1
-            if urn[min_bill] <= 0: del urn[min_bill]
         print(total)
 
 
